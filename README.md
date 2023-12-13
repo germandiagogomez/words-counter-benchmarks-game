@@ -64,21 +64,6 @@ build-release/benchmarks/benchmarks
 
 ## Results
 
-You can find the results in words-counter-results once you run run-words-counter-implementations.h
-
-Some example of the top-level of the output:
-
-In Mac, with profiling enabled, which is avialable for `BoostFutureMemMappedFileWordsCounter`
-it shows this information:
-
-
-```
-Count words threads: 2. Split words threads: 1. Merge results threads: 1
-
-        Split words/nthreads: (8.918432000000001s (normalized: 0.2800526082765165)
-        Count words/nthreads: 7.6501795s (normalized: 0.24022751115426308)
-        Merge results/nthreads: 15.276948000000003s (normalized: 0.4797198805692203)
-```
 
 ### Results for each implementation (MacOS)
 
@@ -127,4 +112,48 @@ Execution time: 10.214s
 Processing speed: 199.50 MiB/s
 Number of files processed: 1024
 Words/s: 33466916.1
+```
+
+
+### Results for each implementation (Linux)
+
+#### MonoThreadWordsCounter
+
+```
+MiB read: 2041.66
+Execution time: 49.897s
+Processing speed: 40.92 MiB/s
+Number of files processed: 1024
+Words/s: 6851865.5
+```
+
+
+#### AsyncWordsCounter
+
+```
+MiB read: 2041.66
+Execution time: 35.707s
+Processing speed: 57.18 MiB/s
+Number of files processed: 1024
+Words/s: 9574804.2
+```
+
+#### ExecutorBasedFutureWordsCounter
+
+```
+MiB read: 2037.66
+Execution time: 24.673s
+Processing speed: 82.59 MiB/s
+Number of files processed: 1024
+Words/s: 13856747.6
+```
+
+#### BoostFutureMemMappedFileWordsCounter 
+
+```
+MiB read: 2037.66
+Execution time: 16.694s
+Processing speed: 122.06 MiB/s
+Number of files processed: 1024
+Words/s: 20479665.3
 ```
