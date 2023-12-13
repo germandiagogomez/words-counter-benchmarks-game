@@ -9,8 +9,14 @@ with several versions.
   - A futures version with memory mapped files
   
   
-Just run the program
+Just run the programs and benchmarks and experiment freely with those.
 
+The benchmarks include benchmarks for the different stages of `BoostFutureMemMappedFileWordsCounter`
+words counter implementation.
+
+There is a words counter program you can run with the script `run-words-counter-implementations.sh`
+If you want to experiment further with the binary itself, just check the command lines inside
+the script. You have a `--help` option in the binary program itself to figure out how it works.
 
 WARNING: the program has been tested under MacOS and Linux on my machines only.
 If you have any trouble, please contact me.
@@ -64,6 +70,10 @@ build-release/benchmarks/benchmarks
 
 ## Results
 
+### Benchmark run results example
+
+
+![Benchmark example](images/benchmarks_macos.png)
 
 ### Results for each implementation (MacOS)
 
