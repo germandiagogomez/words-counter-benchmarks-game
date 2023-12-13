@@ -6,7 +6,6 @@ project('words_counter', 'cpp',
 
 conan_prog = find_program('conan')
 
-
 conan_profile = '@0@/conan/profiles/@1@'.format(meson.project_source_root(),
                                                 get_option('conan_profile'))
 

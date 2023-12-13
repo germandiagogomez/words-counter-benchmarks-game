@@ -1,7 +1,8 @@
 # Detect dependencies
-fmt_dep = dependency('fmt', version: '>=8.1')
+fmt_dep = dependency('fmt', version: '>=9.0', include_type: 'system')
+
 boost_dep = [dependency('boost_iostreams', include_type: 'system'), dependency('boost_thread', include_type: 'system')]
-cxxopts_dep = dependency('cxxopts', version: '=2.2.1')
+cxxopts_dep = dependency('cxxopts', version: '=2.2.1', include_type: 'system')
 absl_dep = dependency('abseil', version: '>=20211102', include_type: 'system')
 
 phmap_dep = dependency('parallel-hashmap', include_type: 'system')

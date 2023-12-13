@@ -13,8 +13,5 @@ compiler.cppstd=23
 [env]
 CC=/usr/local/Cellar/gcc/13.2.0/bin/gcc-13
 CXX=/usr/local/Cellar/gcc/13.2.0/bin/g++-13
-# CPP=cpp-13
-# CPPFLAGS=-isysroot/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/
 CFLAGS=-isystem/usr/local/include/c++/13/ -isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/
 CXXFLAGS=-isystem/usr/local/include/c++/13/ -isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/
-# LDFLAGS=-L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/ -F/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/

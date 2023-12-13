@@ -1,4 +1,4 @@
-fmt_dep = dependency('fmt')
+fmt_dep = dependency('fmt', version: '>=9.0', include_type: 'system')
 
 words_counter_prog = executable('words_counter',
                                 sources: ['words_counter.cpp'],

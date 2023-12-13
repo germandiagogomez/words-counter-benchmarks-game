@@ -42,7 +42,7 @@ meson setup -Dbuildtype=release build-release
 meson compile -C build-release
 
 # Run benchmarks
-build-release/benchmarks/benchmarks
+meson test --benchmark -v -C build-release
 
 # Run implementations
 ./run-words-counter-implementations.sh
@@ -61,7 +61,7 @@ meson compile -C build-release
 
 ulimit -n 10240
 # Run benchmarks
-build-release/benchmarks/benchmarks
+meson test --benchmark -v -C build-release
 
 # Run implementations
 ./run-words-counter-implementations.sh
