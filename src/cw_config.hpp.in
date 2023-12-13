@@ -1,0 +1,27 @@
+#pragma once
+
+#include <version>
+
+#if !defined __cpp_lib_atomic_float
+constexpr int cpp_lib_atomic_float_version = 0;
+#else
+constexpr int cpp_lib_atomic_float_version = __cpp_lib_atomic_float;
+#endif
+
+#if !defined(__cpp_lib_smart_ptr_for_overwrite)
+constexpr int cpp_lib_smart_ptr_for_overwrite = 0;
+#else
+constexpr int cpp_lib_smart_ptr_for_overwrite = __cpp_lib_smart_ptr_for_overwrite;
+#endif
+
+
+#mesondefine ENABLE_INTERNAL_PROFILING
+
+namespace cw {
+    static constexpr bool k_enable_internal_profiling = @ENABLE_INTERNAL_PROFILING@;
+    static constexpr int k_words_count_map_concurrency_level = @WORDS_COUNT_RESULT_MAX_CONCURRENCY_LEVEL@;
+
+    static_assert(cpp_lib_atomic_float_version >= 201711 || !k_enable_internal_profiling,
+                  "Internal profiling not supported: not floating-point fetch_add supported");
+
+}

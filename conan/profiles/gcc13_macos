@@ -1,0 +1,20 @@
+[settings]
+os=Macos
+os_build=Macos
+arch=x86_64
+arch_build=x86_64
+compiler=gcc
+compiler.version=13
+compiler.libcxx=libstdc++11
+compiler.cppstd=23
+[options]
+[conf]
+[build_requires]
+[env]
+CC=/usr/local/Cellar/gcc/13.2.0/bin/gcc-13
+CXX=/usr/local/Cellar/gcc/13.2.0/bin/g++-13
+# CPP=cpp-13
+# CPPFLAGS=-isysroot/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/
+CFLAGS=-isystem/usr/local/include/c++/13/ -isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/
+CXXFLAGS=-isystem/usr/local/include/c++/13/ -isystem/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/
+# LDFLAGS=-L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/ -F/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/

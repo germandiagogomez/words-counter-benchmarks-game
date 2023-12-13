@@ -1,0 +1,8 @@
+option('conan_profile', type : 'string', value : 'autodetect',
+       description : 'Conan profile to use to download conan packages (todo: autodetection not implemented, just hardcoded compiler)')
+
+option('enable_internal_profiling', type : 'boolean', value : false,
+       description : 'Prints to stdout information about algorithm execution speed')
+
+option('words_count_result_max_concurrency_level', type: 'integer', value: 0,
+       description: 'Maximum concurrency level of WordsCountMap result. 0 means autodetection')

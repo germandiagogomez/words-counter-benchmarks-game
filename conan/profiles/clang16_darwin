@@ -1,0 +1,16 @@
+[settings]
+os=Macos
+os_build=Macos
+arch=x86_64
+arch_build=x86_64
+compiler=clang
+compiler.version=16
+compiler.libcxx=libc++
+build_type=Release
+[options]
+[build_requires]
+[env]
+CFLAGS=-isystem/usr/local/Cellar/llvm/16.0.2/include/c++/v1/
+CXXFLAGS=-isystem/usr/local/Cellar/llvm/16.0.2/include/c++/v1/
+CC=/usr/local/Cellar/llvm/16.0.6/bin/clang
+CXX=/usr/local/Cellar/llvm/16.0.6/bin/clang++
