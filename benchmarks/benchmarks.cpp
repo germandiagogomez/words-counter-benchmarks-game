@@ -1,8 +1,11 @@
 #include <benchmark/benchmark.h>
 
-#include <algorithm>
 #include <types/dynamic_buffer.hpp>
 #include <count_words/count_words.hpp>
+#include <algo_stages/read_input.hpp>
+#include <algo_stages/split_words.hpp>
+
+#include <algorithm>
 #include <random>
 
 #define REPEAT2(x) x x

@@ -1,5 +1,8 @@
+#include <cw_config.hpp>
 #include <algo_stages/read_input.hpp>
 #include <boost/container/small_vector.hpp>
+
+
 // #define BOOST_ASIO_ENABLE_BUFFER_DEBUGGING
 // #define BOOST_ASIO_ENABLE_HANDLER_TRACKING
 #if USE_ASYNC_FILE_IO
@@ -9,7 +12,11 @@
 #include <boost/asio/executor.hpp>
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/this_coro.hpp>
+#include <boost/asio/stream_file.hpp>
 #endif
+
+#include <iostream>
+
 
 namespace cw {
 
@@ -74,30 +81,28 @@ read_file_async(boost::asio::any_io_executor& exe, const std::filesystem::path& 
                                   p.c_str(),
                                   boost::asio::file_base::read_only |
                                       boost::asio::file_base::exclusive);
-
     if (!file.is_open()) {
-        throw std::runtime_error(fmt::format("Could not open {}", p.c_str()));
+        throw std::runtime_error("Could not open file");
     }
-    constexpr std::size_t block_size = 1024 * 1024 * 2;
-    boost::container::vector<std::byte> buf(block_size, boost::container::default_init);
+    boost::container::vector<std::byte> buf(file.size(), boost::container::default_init);
     std::size_t curr_pos = 0;
     std::size_t bytes_read = 1;
-    std::vector<std::byte> v(block_size);
     while (bytes_read > 0) {
         try {
             bytes_read = co_await file.async_read_some(
                 boost::asio::buffer(buf.data() + curr_pos, buf.size() - curr_pos),
                 use_awaitable);
             curr_pos += bytes_read;
-            if (curr_pos == buf.size())
-                buf.resize(buf.size() * 2, boost::container::default_init);
         } catch (const boost::system::system_error& e) {
-            fmt::print("{}\n", e.what());
-            throw;
+            // fmt::print("{}\n", e.what());
+            if (e.code() != boost::asio::error::eof) {
+                std::cerr << e.code() << " -> " << e.what() << std::endl;
+                throw;
+            }
+            else
+                break;
         }
     }
-    buf.resize(curr_pos, boost::container::default_init);
-    buf.shrink_to_fit();
     co_return std::move(buf);
 }
 #endif

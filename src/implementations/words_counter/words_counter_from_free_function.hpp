@@ -1,6 +1,8 @@
 #pragma once
 
 #include <interfaces/words_counter.hpp>
+#include <types/cw_types.hpp>
+
 
 namespace cw {
 

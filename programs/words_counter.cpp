@@ -66,8 +66,7 @@ using BoostFutureMemMappedFileWordsCounter =
     cw::WordsCounterFromFreeFunction<cwo::boost_future_mem_mapped_files_string_view>;
 using ExecutorBasedFutureWordsCounter =
     cw::WordsCounterFromFreeFunction<cwo::executor_based_boost_future>;
-// using ThreadPoolWithCoroutine =
-// WordsCounterWithFreeFunc<cwo::threadpool_with_coroutine>;
+using ThreadPoolWithCoroutine = cw::WordsCounterFromFreeFunction<cwo::threadpool_with_coroutine>;
 
 #define M_ENTRY(T)                                                                                 \
     {                                                                                              \
@@ -132,7 +131,7 @@ main(int argc, char* argv[])
     using namespace std::literals;
     const WordsCountersMap words_counters = {M_ENTRY(MonoThreadWordsCounter),
                                              M_ENTRY(AsyncWordsCounter),
-                                             // M_ENTRY(ThreadPoolWithCoroutine),
+                                             M_ENTRY(ThreadPoolWithCoroutine),
                                              M_ENTRY(BoostFutureMemMappedFileWordsCounter),
                                              M_ENTRY(ExecutorBasedFutureWordsCounter)};
     std::vector<std::string_view> keys;

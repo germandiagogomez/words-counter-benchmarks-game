@@ -16,6 +16,8 @@ constexpr int cpp_lib_smart_ptr_for_overwrite = __cpp_lib_smart_ptr_for_overwrit
 
 
 #mesondefine ENABLE_INTERNAL_PROFILING
+#mesondefine USE_ASYNC_FILE_IO
+#mesondefine BOOST_ASIO_HAS_IO_URING
 
 namespace cw {
     static constexpr bool k_enable_internal_profiling = @ENABLE_INTERNAL_PROFILING@;

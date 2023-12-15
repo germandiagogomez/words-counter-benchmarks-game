@@ -12,6 +12,26 @@ conf_data = configuration_data()
 conf_data.set10('ENABLE_INTERNAL_PROFILING', get_option('enable_internal_profiling'))
 conf_data.set('CW_STATIC_LIB_CONFIG', get_option('default_library') == 'static' ? 1 : 0)
 
+#  cpp_extra_args += ['-DASYNC_FILE_IO=1', '-DBOOST_ASIO_DISABLE_EPOLL', '-DBOOST_ASIO_HAS_FILE']
+if host_machine.system() == 'linux'
+  uring_dep = dependency('liburing', required: false)
+  if uring_dep.found()
+    conf_data.set10('USE_ASYNC_FILE_IO', true)
+    conf_data.set10('BOOST_ASIO_HAS_IO_URING', true)
+  else
+    conf_data.set10('USE_ASYNC_FILE_IO', false)
+    warning('Liburing not found. Cannot use Boost.Asio coroutine implementation')
+  endif
+endif
+
+if host_machine.system() == 'linux'
+
+else
+  conf_data.set10('USE_ASYNC_FILE_IO', false)
+endif
+
+
+
 wcr_concurrency_level = get_option('words_count_result_max_concurrency_level')
 if wcr_concurrency_level == 0
     cpp_compiler = meson.get_compiler('cpp')
@@ -27,15 +47,6 @@ configure_file(input : 'cw_config.hpp.in',
     configuration: conf_data)
 
 cpp_extra_args = ['-fvisibility=hidden']
-#  cpp_extra_args += ['-DASYNC_FILE_IO=1', '-DBOOST_ASIO_DISABLE_EPOLL', '-DBOOST_ASIO_HAS_FILE']
-uring_dep = dependency('', required: false)
-if host_machine.system() == 'linux'
-  if uring_dep.found()
-    cpp_extra_args += '-DBOOST_ASIO_HAS_IO_URING'
-  else
-    warning('Liburing not found. Cannot use Boost.Asio coroutine implementation')
-  endif
-endif
 
 foundation_dep = []
 if host_machine.system() == 'darwin'
@@ -50,7 +61,7 @@ lib_count_words = library('count_words',
                              'algo_stages/read_input.cpp'],
                              cpp_args: [cpp_extra_args] + ['-DCW_EXPORTS',
                              '-DCW_STATIC_LIB_CONFIG=@0@'.format(get_option('default_library') == 'static' ? 1 : 0)],
-                          dependencies : [fmt_dep, boost_dep, absl_dep, foundation_dep, phmap_dep])
+                             dependencies : [fmt_dep, boost_dep, absl_dep, foundation_dep, phmap_dep, uring_dep])
 
 
 count_words_dep = declare_dependency(link_with: [lib_count_words],
