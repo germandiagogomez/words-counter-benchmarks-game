@@ -5,8 +5,9 @@ with several versions.
 
   - A monothread version
   - A simple futures multithreaded version
-  - A futures version with load balancing
-  - A futures version with memory mapped files
+  - A futures version with thread pools balancing
+  - A futures version with memory mapped files and thread pools balancing
+  - A coroutine-based read file implementation (Linux Only, Asio + uring)
   
   
 Just run the programs and benchmarks and experiment freely with those.
@@ -28,6 +29,7 @@ If you have any trouble, please contact me.
   - gcc12 in Linux or gcc13 in MacOS
   - conan at least 1.62.0
   - python3
+  - ninja build system
   - meson build system at least 1.3.0
   
   
@@ -106,22 +108,24 @@ Execution time: 17.919s
 Processing speed: 113.71 MiB/s
 Number of files processed: 1024
 Words/s: 19076459.7
+
 ```
 
 #### BoostFutureMemMappedFileWordsCounter 
 
 ```
-Count words threads: 3. Split words threads: 2. Merge results threads: 3
+Count words threads: 5. Split words threads: 4. Merge results threads: 7
 
-        Split words/nthreads: (4.9611374999999995s (normalized: 0.2657448262770586)
-        Count words/nthreads: 5.689743s (normalized: 0.3047727996041453)
-        Merge results/nthreads: 8.017921333333334s (normalized: 0.42948237411879614)
+        Split words/nthreads: (2.92412675s (normalized: 0.264142732457078)
+        Count words/nthreads: 3.9666942s (normalized: 0.3583201189242713)
+        Merge results/nthreads: 4.179431571428571s (normalized: 0.37753714861865073)
         
+
 MiB read: 2037.65
-Execution time: 10.214s
-Processing speed: 199.50 MiB/s
+Execution time: 6.93s
+Processing speed: 294.03 MiB/s
 Number of files processed: 1024
-Words/s: 33466916.1
+Words/s: 49326271.6
 ```
 
 
@@ -167,3 +171,14 @@ Processing speed: 122.06 MiB/s
 Number of files processed: 1024
 Words/s: 20479665.3
 ```
+
+#### ThreadPoolWithCoroutine (only Linux)
+
+``` 
+MiB read: 2037.66
+Execution time: 13.162s
+Processing speed: 154.81 MiB/s
+Number of files processed: 1024
+Words/s: 25975348.2
+```
+

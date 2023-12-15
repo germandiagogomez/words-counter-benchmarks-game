@@ -13,6 +13,7 @@ conf_data.set10('ENABLE_INTERNAL_PROFILING', get_option('enable_internal_profili
 conf_data.set('CW_STATIC_LIB_CONFIG', get_option('default_library') == 'static' ? 1 : 0)
 
 #  cpp_extra_args += ['-DASYNC_FILE_IO=1', '-DBOOST_ASIO_DISABLE_EPOLL', '-DBOOST_ASIO_HAS_FILE']
+uring_dep = dependency('', required: false)
 if host_machine.system() == 'linux'
   uring_dep = dependency('liburing', required: false)
   if uring_dep.found()

@@ -1,9 +1,9 @@
 #include <benchmark/benchmark.h>
 
-#include <types/dynamic_buffer.hpp>
-#include <count_words/count_words.hpp>
 #include <algo_stages/read_input.hpp>
 #include <algo_stages/split_words.hpp>
+#include <count_words/count_words.hpp>
+#include <types/dynamic_buffer.hpp>
 
 #include <algorithm>
 #include <random>
@@ -30,7 +30,7 @@ static T getenv_or_default(std::string_view var_name, T default_val = {}) {
 namespace fs = std::filesystem;
 
 auto [DIR_RES, NUM_FILES] =
-  std::tuple(getenv_or_default<fs::path>("COUNT_WORDS_RESOURCES_DIR",
+    std::tuple(getenv_or_default<fs::path>("COUNT_WORDS_RESOURCES_DIR",
                                            "wikipedia_resources/"),
                getenv_or_default<int>("COUNT_WORDS_NUM_FILES", 16));
 
@@ -51,7 +51,7 @@ static void BM_read_memory(benchmark::State &state) {
   const auto beg_mem = reinterpret_cast<std::uint64_t *>(mem_to_read.data());
   const auto end_mem = reinterpret_cast<std::uint64_t *>(mem_to_read.data() +
                                                          mem_to_read.size());
-  std::uint64_t sink{};
+  [[maybe_unused]] std::uint64_t sink{};
   for (auto _ : state) {
     for (const volatile std::uint64_t *curr = beg_mem; curr < end_mem;) {
       REPEAT(sink = *curr++;)
@@ -70,11 +70,9 @@ BENCHMARK(BM_read_memory)
     ->Arg(128)
     ->Unit(benchmark::kMillisecond);
 
-
-auto to_char_ptr(std::byte const * b) {
+auto to_char_ptr(std::byte const *b) {
   return reinterpret_cast<char const *>(b);
 }
-
 
 static void BM_split_in_words(benchmark::State &state) {
   // Perform setup here
@@ -113,57 +111,56 @@ BENCHMARK(BM_split_in_words)
     ->Arg(64)
     ->Arg(256);
 
-
 std::vector<std::size_t> indexes_of_word_boundaries(std::span<char const> buf) {
-    auto beg = std::ranges::begin(buf);
-    auto end = std::ranges::end(buf);
-    std::size_t curr_index = 0;
-    std::vector<std::size_t> words_boundaries;
-    words_boundaries.reserve(buf.size());
-    std::for_each(beg, end, [&](unsigned char c) {
-        if (std::isspace(c))
-            words_boundaries.push_back(curr_index);
-        ++curr_index;
-    });
-    return words_boundaries;
+  auto beg = std::ranges::begin(buf);
+  auto end = std::ranges::end(buf);
+  std::size_t curr_index = 0;
+  std::vector<std::size_t> words_boundaries;
+  words_boundaries.reserve(buf.size());
+  std::for_each(beg, end, [&](unsigned char c) {
+    if (std::isspace(c))
+      words_boundaries.push_back(curr_index);
+    ++curr_index;
+  });
+  return words_boundaries;
 }
 
 static void BM_indexes_of_word_boundaries(benchmark::State &state) {
-    // Perform setup here
-    const auto NUM_FILES = state.range(0);
-    namespace fs = std::filesystem;
-    std::vector<std::string> data;
-    std::size_t bytes_size = 0;
-    for (int i = 0; const auto &file : fs::directory_iterator{DIR_RES}) {
-        auto f = cw::read_file_zero_copy(file);
-        auto b = to_char_ptr(std::addressof(*f.begin()));
-        auto e = to_char_ptr(std::addressof(*f.end()));
-        data.push_back(std::string(b, e));
-        bytes_size += data.back().size();
-        ++i;
-        if (i == NUM_FILES)
-            break;
+  // Perform setup here
+  const auto NUM_FILES = state.range(0);
+  namespace fs = std::filesystem;
+  std::vector<std::string> data;
+  std::size_t bytes_size = 0;
+  for (int i = 0; const auto &file : fs::directory_iterator{DIR_RES}) {
+    auto f = cw::read_file_zero_copy(file);
+    auto b = to_char_ptr(std::addressof(*f.begin()));
+    auto e = to_char_ptr(std::addressof(*f.end()));
+    data.push_back(std::string(b, e));
+    bytes_size += data.back().size();
+    ++i;
+    if (i == NUM_FILES)
+      break;
+  }
+  for (auto _ : state) {
+    for (std::span<char const> str : data) {
+      indexes_of_word_boundaries(str);
     }
-    for (auto _ : state) {
-        for (std::span<char const> str : data) {
-            indexes_of_word_boundaries(str);
-        }
-    }
+  }
 
-    using C = benchmark::Counter;
-    state.counters["Rate"] =
-            benchmark::Counter(bytes_size, C::kIsIterationInvariantRate, C::kIs1024);
-    state.SetLabel(
-            std::to_string(static_cast<double>(bytes_size) / 1024 / NUM_FILES) +
-            " KB average file size ");
+  using C = benchmark::Counter;
+  state.counters["Rate"] =
+      benchmark::Counter(bytes_size, C::kIsIterationInvariantRate, C::kIs1024);
+  state.SetLabel(
+      std::to_string(static_cast<double>(bytes_size) / 1024 / NUM_FILES) +
+      " KB average file size ");
 }
 
 BENCHMARK(BM_indexes_of_word_boundaries)
-->Unit(benchmark::kMillisecond)
-->Arg(4)
-->Arg(16)
-->Arg(64)
-->Arg(256);
+    ->Unit(benchmark::kMillisecond)
+    ->Arg(4)
+    ->Arg(16)
+    ->Arg(64)
+    ->Arg(256);
 
 static void BM_read_files(benchmark::State &state) {
   namespace fs = std::filesystem;
@@ -190,8 +187,8 @@ static void BM_read_files(benchmark::State &state) {
     state.ResumeTiming();
   }
   using C = benchmark::Counter;
-  state.counters["Rate"] =
-      benchmark::Counter(bytes_read / state.iterations(), C::kIsRate, C::kIs1024);
+  state.counters["Rate"] = benchmark::Counter(bytes_read / state.iterations(),
+                                              C::kIsRate, C::kIs1024);
   state.SetLabel(std::to_string(static_cast<double>(bytes_read) / 1024 / 1024 /
                                 state.iterations()) +
                  " MB of files read");

@@ -1,5 +1,5 @@
 project('words_counter', 'cpp',
-        version : '0.3',
+        version : '0.4',
         default_options : ['warning_level=3', 'cpp_std=c++2a',
                            'buildtype=release',
                            'pkg_config_path=@0@/meson-conan'.format(meson.project_build_root())])
