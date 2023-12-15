@@ -1,27 +1,34 @@
 # Words counter benchmarks
 
-This is a series of a *very simple*, *not production ready* words counter
-with several versions.
+This is a series of a increasingly more performant words counters.
+
+(Unscientific) Performance comparisons are shown for each implementation below 
+on the 2 machines I tried myself.
+
+
+So far, there are:
 
   - A monothread version
   - A simple futures multithreaded version
-  - A futures version with thread pools balancing
+  - A futures version with thread pools for more load balancing
   - A futures version with memory mapped files and thread pools balancing
   - A coroutine-based read file implementation (Linux Only, Asio + uring)
   
   
-Just run the programs and benchmarks and experiment freely with those.
+You can run the benchmarks and experiment freely with those.
 
-The benchmarks include benchmarks for the different stages of `BoostFutureMemMappedFileWordsCounter`
-words counter implementation.
+The benchmarks includes internal profiling for the different stages of 
+`BoostFutureMemMappedFileWordsCounter` words counter implementation when 
+enabled via meson options. 
 
-There is a words counter program you can run with the script `run-words-counter-implementations.sh`
+You can run all implementation `run-words-counter-implementations.sh`.
+The results will be stored in `words-counter-results/` directory.
+
 If you want to experiment further with the binary itself, just check the command lines inside
 the script. You have a `--help` option in the binary program itself to figure out how it works.
 
 WARNING: the program has been tested under MacOS and Linux on my machines only.
 If you have any trouble, please contact me.
-
 
 ## Requirements
 
@@ -40,7 +47,7 @@ If you have any trouble, please contact me.
 meson setup -Dbuildtype=release build-release
 
 # Please, note that for the first time the compilation stage could look stuck.
-# This is because it needs to download the resources and uncompress.
+# This is because it needs to download the file resources needed to use the program and uncompress.
 meson compile -C build-release
 
 # Run benchmarks
@@ -58,7 +65,7 @@ meson test --benchmark -v -C build-release
 meson setup -Denable_internal_profiling=true -Dconan_profile=gcc13_macos --native-file meson/native/compilers/gcc13_macos.ini -Dbuildtype=release build-release
 
 # Please, note that for the first time the compilation stage could look stuck.
-# This is because it needs to download the resources and uncompress.
+# This is because it needs to download the file resources needed to use the program and uncompress.
 meson compile -C build-release
 
 ulimit -n 10240
@@ -78,6 +85,11 @@ meson test --benchmark -v -C build-release
 ![Benchmark example](images/benchmarks_macos.png)
 
 ### Results for each implementation (MacOS)
+
+Macbook Pro late 2019.
+2,4 GHz Intel Core i9 de 8 cores with multithreading.
+32 GB 2667 MHz DDR4.
+APPLE SSD AP0512N.
 
 #### MonoThreadWordsCounter
 
@@ -130,6 +142,10 @@ Words/s: 49326271.6
 
 
 ### Results for each implementation (Linux)
+
+Intel(R) Core(TM) i5-7500 CPU @ 3.40GHz. 
+32 GB RAM DDR4 2400 Mhz. 
+Kingston SA400S3 SSD.
 
 #### MonoThreadWordsCounter
 
