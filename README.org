@@ -1,6 +1,17 @@
 * Words counter benchmarks
 
-This is a series of a increasingly more performant words counters.
+This is a series of a increasingly more performant "words counters" (not fancy, just separating "words"
+by space gaps) implemented making use of Modern C++20 features such as
+=span=s, =string_view=s, =filesystem=, =ranges= and others.
+
+Where appropriate, parallel hash maps and other dependencies such as
+Abseil containers, =Boost.Future=s (which allow continuations) or Asio with
+C++20 coroutines are used.
+
+Feel free to contribute your own implementation if you wish, though at the moment
+there is no documentation: look at [[programs/words_counter.cpp][words counter program]]. You can author your own
+free function for your implementation.
+
 
 (Unscientific) Performance comparisons are shown for each implementation below 
 on the 2 machines I tried myself.
@@ -18,14 +29,14 @@ So far, there are:
 You can run the benchmarks and experiment freely with those.
 
 The benchmarks includes internal profiling for the different stages of 
-`BoostFutureMemMappedFileWordsCounter` words counter implementation when 
+=BoostFutureMemMappedFileWordsCounter= words counter implementation when
 enabled via meson options. 
 
-You can run all implementation `run-words-counter-implementations.sh`.
-The results will be stored in `words-counter-results/` directory.
+You can run all implementation =run-words-counter-implementations.sh=.
+The results will be stored in =words-counter-results/= directory.
 
 If you want to experiment further with the binary itself, just check the command lines inside
-the script. You have a `--help` option in the binary program itself to figure out how it works.
+the script. You have a =--help= option in the binary program itself to figure out how it works.
 
 WARNING: the program has been tested under MacOS and Linux on my machines only.
 If you have any trouble, please contact me.
@@ -42,7 +53,6 @@ If you have any trouble, please contact me.
     unless you have your own data set)
   
 *** Linux
-
 #+BEGIN_SRC sh
 # This can take a while since Conan will download packages and probably build
 meson setup -Dbuildtype=release build-release
