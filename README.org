@@ -2,10 +2,10 @@
 
 This is a series of a increasingly more performant "words counters" (not fancy, just separating "words"
 by space gaps) implemented making use of Modern C++20 features such as
-=span=s, =string_view=s, =filesystem=, =ranges= and others.
+=span=, =string_view=, =filesystem=, =ranges= and others.
 
 Where appropriate, parallel hash maps and other dependencies such as
-Abseil containers, =Boost.Future=s (which allow continuations) or Asio with
+Abseil containers, =Boost.Future= (which allow continuations) or Asio with
 C++20 coroutines are used.
 
 Feel free to contribute your own implementation if you wish, though at the moment
@@ -28,7 +28,7 @@ So far, there are:
   
 You can run the benchmarks and experiment freely with those.
 
-The benchmarks includes internal profiling for the different stages of 
+The words counter program includes internal profiling for the different stages of
 =BoostFutureMemMappedFileWordsCounter= words counter implementation when
 enabled via meson options. 
 
@@ -38,7 +38,7 @@ The results will be stored in =words-counter-results/= directory.
 If you want to experiment further with the binary itself, just check the command lines inside
 the script. You have a =--help= option in the binary program itself to figure out how it works.
 
-WARNING: the program has been tested under MacOS and Linux on my machines only.
+WARNING: the program has been tested under MacOS and Linux on my machines.
 If you have any trouble, please contact me.
 
 ** Requirements
