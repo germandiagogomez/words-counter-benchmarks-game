@@ -47,6 +47,28 @@ run_target('conan',
             '-if', meson.build_root() / 'meson-conan'])
 
 
+git_prog = find_program('git', native: false, required: get_option('download_dataset'))
+
+if get_option('download_dataset').allowed() and git_prog.found()
+  fs = import('fs')
+  git_lfs_ret_code = 0
+  if not fs.is_dir('@0@/wikipedia_resources'.format(meson.project_source_root()))
+    message('Downloading git lfs files. This can potentially take a while.',
+            'If you want to skip downloading lfs files, use -Ddownload_dataset=false on setup.',
+            'Please note that in this case benchmarks will not be built.')
+    git_lfs_ret_code = run_command(git_prog, 'lfs', 'pull', check: false).returncode()
+  endif
+  if get_option('download_dataset').allowed() and git_lfs_ret_code != 0
+    error('git lfs pull failed. Please, review that you have git lfs installed and that your network is working properly.',
+          'You can download git lfs from https://git-lfs.com/')
+  endif
+  tar_prog = find_program('tar', native: false, required: get_option('download_dataset'))
+
+  if not fs.is_dir('@0@/wikipedia_resources'.format(meson.project_source_root()))
+    message('Uncompressing wikipedia_resources.tar.bz2...')
+    run_command(tar_prog, 'xvjf', '@0@/wikipedia_resources.tar.bz2'.format(meson.project_source_root()), check: true)
+  endif
+endif
 
 subdir('src')
 subdir('programs')
