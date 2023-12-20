@@ -49,6 +49,7 @@ If you have any trouble, please contact me.
   - python3
   - ninja build system
   - meson build system at least 1.3.0
+  - CMake (for Conan subprojects compilation)
   - git lfs (optional, but needed to run the benchmarks or to have sample data to run implementations against,
     unless you have your own data set)
   
