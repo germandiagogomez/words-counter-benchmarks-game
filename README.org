@@ -211,3 +211,60 @@ Processing speed: 154.81 MiB/s
 Number of files processed: 1024
 Words/s: 25975348.2
 #+END_EXAMPLE
+
+
+*** Results for each implementation (Linux) 
+
+Odroid H3+
+Intel(R) Pentium(R) Silver N6005 @ 2.00GHz 4 cores/threads
+64 GB DDR4  MTS=2933
+Samsung_SSD_970_EVO_Plus_1TB
+
+**** MonoThreadWordsCounter
+
+#+BEGIN_EXAMPLE
+MiB read: 2041.56
+Execution time: 60.504s
+Processing speed: 33.74 MiB/s
+Number of files processed: 1024
+Words/s: 5652766.8
+#+END_EXAMPLE
+
+**** AsyncWordsCounter 
+
+#+BEGIN_EXAMPLE
+MiB read: 2041.56
+Execution time: 45.504s
+Processing speed: 44.87 MiB/s
+Number of files processed: 1024
+Words/s: 7516152.4
+#+END_EXAMPLE
+
+**** ExecutorBasedFutureWordsCounter
+#+BEGIN_EXAMPLE
+MiB read: 2037.56
+Execution time: 34.849s
+Processing speed: 58.47 MiB/s
+Number of files processed: 1024
+Words/s: 9814198.4
+#+END_EXAMPLE
+
+**** BoostFutureMemMappedFileWordsCounter
+
+#+BEGIN_EXAMPLE
+MiB read: 2037.56
+Execution time: 26.485s
+Processing speed: 76.93 MiB/s
+Number of files processed: 1024
+Words/s: 12913536.0
+#+END_EXAMPLE
+
+**** ThreadPoolWithCoroutine
+
+#+BEGIN_EXAMPLE
+MiB read: 2037.56
+Execution time: 18.253s
+Processing speed: 111.63 MiB/s
+Number of files processed: 1024
+Words/s: 18737467.6
+#+END_EXAMPLE
