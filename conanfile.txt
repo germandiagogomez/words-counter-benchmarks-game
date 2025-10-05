@@ -1,21 +1,21 @@
 [requires]
-boost/1.80.0
+boost/1.85.0
 fmt/9.1.0
 cxxopts/2.2.1
-abseil/20211102.0
+abseil/20250127.0
 catch2/3.4.0
 benchmark/1.7.1
 parallel-hashmap/1.33
 
 [generators]
-pkg_config
+PkgConfigDeps
 
 [options]
-boost:bzip2=False
-boost:with_stacktrace_backtrace=True
-boost:i18n_backend=None
-boost:without_fiber=True
-boost:without_wave=True
-boost:without_locale=True
-boost:without_json=True
-boost:without_nowide=True
+boost/*:bzip2=False
+boost/*:with_stacktrace_backtrace=True
+boost/*:without_fiber=True
+boost/*:without_wave=True
+boost/*:without_locale=True
+boost/*:without_json=True
+boost/*:without_nowide=True
+boost/*:without_log=True

@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -euxo pipefail
 
 export DEBIAN_FRONTEND=noninteractive
@@ -18,19 +17,17 @@ export DEBIAN_FRONTEND=noninteractive
 #     fi
 # }
 
-
-# function install_conan() {
+function install_conan() {
 #   python3 -m pip install --user --upgrade pip setuptools
-#   python3 -m pip install --user conan==1.62.0
-#   ln -s /Users/germandiago/Library/Python/3.12/bin/conan /usr/local/bin/conan
+   python3 -m pip install --user conan==2.21.0
+   #   ln -s /Users/germandiago/Library/Python/3.12/bin/conan /usr/local/bin/conan
 #   conan --version
-# }
-
-function install_meson() {
-    python3 -m pip install meson==1.3.0
 }
 
+function install_meson() {
+    python3 -m pip install meson==1.9.1
+}
 
-# install_base_packages
-# install_conan
 install_meson
+install_conan
+conan profile detect

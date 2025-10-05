@@ -2,10 +2,11 @@
 
 #include <types/cw_types.hpp>
 
-#include <absl/container/flat_hash_map.h>
-#include <absl/container/node_hash_map.h>
+#include <boost/unordered/unordered_flat_map.hpp>
+#include <boost/unordered/unordered_node_map.hpp>
 #include <boost/container/flat_map.hpp>
 
+#include <map>
 #include <span>
 
 namespace cw {
@@ -45,16 +46,16 @@ count_words_flat_map(std::span<std::string const> seq)
 }
 
 inline auto
-count_words_absl_flat_hash_map(std::span<std::string const> seq)
+count_words_boost_unordered_flat_hash_map(std::span<std::string const> seq)
 {
-    using Map = absl::flat_hash_map<std::string, std::uint64_t>;
+    using Map = boost::unordered_flat_map<std::string, std::uint64_t>;
     return detail::count_words_impl<Map>(seq);
 }
 
 inline auto
-count_words_absl_node_hash_map(std::span<std::string const> seq)
+count_words_boost_unordered_node_map(std::span<std::string const> seq)
 {
-    using Map = absl::node_hash_map<std::string, std::uint64_t>;
+    using Map = boost::unordered_node_map<std::string, std::uint64_t>;
     return detail::count_words_impl<Map>(seq);
 }
 

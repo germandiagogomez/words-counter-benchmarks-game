@@ -1,9 +1,11 @@
 # Detect dependencies
 fmt_dep = dependency('fmt', version: '>=9.0', include_type: 'system')
 
-boost_dep = [dependency('boost_iostreams', include_type: 'system'), dependency('boost_thread', include_type: 'system')]
+boost_dep = [
+  dependency('boost-headers', include_type: 'system'),
+  dependency('boost-iostreams', include_type: 'system'), dependency('boost-thread', include_type: 'system')]
 cxxopts_dep = dependency('cxxopts', version: '=2.2.1', include_type: 'system')
-absl_dep = dependency('abseil', version: '>=20211102', include_type: 'system')
+
 
 phmap_dep = dependency('parallel-hashmap', include_type: 'system')
 
@@ -62,10 +64,10 @@ lib_count_words = library('count_words',
                              'algo_stages/read_input.cpp'],
                              cpp_args: [cpp_extra_args] + ['-DCW_EXPORTS',
                              '-DCW_STATIC_LIB_CONFIG=@0@'.format(get_option('default_library') == 'static' ? 1 : 0)],
-                             dependencies : [fmt_dep, boost_dep, absl_dep, foundation_dep, phmap_dep, uring_dep])
+                             dependencies : [fmt_dep, boost_dep, foundation_dep, phmap_dep, uring_dep])
 
 
 count_words_dep = declare_dependency(link_with: [lib_count_words],
                                      include_directories: '.',
                                      dependencies: [fmt_dep, boost_dep, cxxopts_dep,
-                                                   absl_dep, uring_dep, foundation_dep, phmap_dep])
+                                                    uring_dep, foundation_dep, phmap_dep])

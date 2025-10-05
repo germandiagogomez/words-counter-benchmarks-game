@@ -1,7 +1,6 @@
 #pragma once
 
-#include <absl/container/flat_hash_map.h>
-#include <absl/container/node_hash_map.h>
+#include <boost/unordered/unordered_flat_map.hpp>
 #include <parallel_hashmap/phmap.h>
 
 #include <atomic>
@@ -42,7 +41,7 @@ using WordsCountMap =
                                   7,
                                   std::mutex>;
 
-using WordsViewCountMap = absl::flat_hash_map<std::string_view, std::uint64_t>;
+using WordsViewCountMap = boost::unordered_flat_map<std::string_view, std::uint64_t>;
 using WordCleanFunc = std::function<std::vector<std::string>(std::string_view)>;
 
 struct CW_API CountWordsStats {

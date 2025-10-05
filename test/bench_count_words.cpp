@@ -5,7 +5,6 @@
 #include <count_words/count_words.hpp>
 #include <string/immutable_string.hpp>
 
-#include <absl/hash/hash.h>
 #include <boost/smart_ptr/local_shared_ptr.hpp>
 #include <boost/smart_ptr/make_local_shared.hpp>
 #include <fmt/format.h>

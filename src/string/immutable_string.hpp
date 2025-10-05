@@ -1,8 +1,9 @@
 #pragma once
 
-#include <absl/hash/hash.h>
+#include <boost/unordered/unordered_flat_map.hpp>
 #include <boost/smart_ptr/local_shared_ptr.hpp>
 #include <boost/smart_ptr/make_local_shared.hpp>
+#include <boost/unordered/unordered_flat_map_fwd.hpp>
 
 namespace cw {
 
@@ -18,7 +19,7 @@ struct ImmutableString {
     ImmutableString() = default;
     static ImmutableString create(std::string_view str)
     {
-        thread_local absl::flat_hash_map<std::string_view, ImmutableString> instances;
+        thread_local boost::unordered_flat_map<std::string_view, ImmutableString> instances;
         if (auto it = instances.find(str); it != instances.end()) {
             return it->second;
         }
@@ -35,6 +36,7 @@ struct ImmutableString {
    private:
     Ptr _value{nullptr};
 };
+
 
 bool
 operator==(const ImmutableString& lhs, const ImmutableString& rhs)

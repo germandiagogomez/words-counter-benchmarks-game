@@ -15,6 +15,7 @@
 #include <filesystem>
 #include <functional>
 #include <iostream>
+#include <numeric>
 #include <ranges>
 #include <string_view>
 #include <unordered_map>

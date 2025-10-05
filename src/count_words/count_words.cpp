@@ -34,6 +34,7 @@
 #include <algorithm>
 #include <fstream>
 #include <future>
+#include <iostream>
 #include <semaphore>
 #include <thread>
 
@@ -309,14 +310,14 @@ WordsCountResult boost_future_mem_mapped_files_string_view(
       tasks.push_back(
           boost::async(default_pool,
                        [&prof_func, files_batch = std::move(files_batch)]() {
+                         auto buffers = std::make_unique<DynamicBufferVec>();
                          try {
-                           auto buffers = std::make_unique<DynamicBufferVec>();
                            for (const auto &f : files_batch)
                              buffers->push_back(read_file_zero_copy(f));
-                           return buffers;
                          } catch (std::exception const &e) {
                            std::cerr << e.what() << std::endl;
                          }
+                         return buffers;
                        })
               .then(
                   split_words_pool,
@@ -333,6 +334,7 @@ WordsCountResult boost_future_mem_mapped_files_string_view(
                     } catch (std::exception const &e) {
                       std::cerr << e.what() << std::endl;
                     }
+                    throw std::runtime_error("Unreachable code!");
                   })
               .then(
                   count_words_pool,
@@ -353,6 +355,7 @@ WordsCountResult boost_future_mem_mapped_files_string_view(
                     } catch (std::exception const &e) {
                       std::cerr << e.what() << std::endl;
                     }
+                    throw std::runtime_error("Unreachable code!");
                   })
               .then(default_pool,
                     [&words_count, &total_files_size, &total_files_processed,
